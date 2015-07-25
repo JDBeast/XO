@@ -1,6 +1,7 @@
 package su.fftt.xo.model;
 
 import org.junit.Test;
+import su.fftt.xo.model.exceptions.AlreadyOccupiedException;
 import su.fftt.xo.model.exceptions.InvalidPointException;
 
 import java.awt.*;
@@ -103,5 +104,20 @@ public class FieldTest {
             field.getFigure(inputPoint);
             fail();
         } catch (final InvalidPointException ignored) {}
+    }
+
+    @Test
+    public void testSetFigureWhenAlreadyOccupied() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(0, 0);
+        final Figure figure = Figure.X;
+
+        field.setFigure(inputPoint, figure);
+
+        try {
+            field.setFigure(inputPoint, figure);
+            fail();
+        } catch (final AlreadyOccupiedException ignored) {
+        }
     }
 }
