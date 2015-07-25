@@ -1,6 +1,7 @@
 package su.fftt.xo.model;
 
 import org.junit.Test;
+import su.fftt.xo.model.exceptions.InvalidPointException;
 
 import java.awt.*;
 
@@ -26,5 +27,81 @@ public class FieldTest {
         final Figure actualFigure = field.getFigure(inputPoint);
 
         assertEquals(inputFigure, actualFigure);
+    }
+
+    @Test
+    public void testGetNonExistingFigure() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(0, 0);
+
+        final Figure actualFigure = field.getFigure(inputPoint);
+
+        assertNull(actualFigure);
+    }
+
+    @Test
+    public void testGetFigureWithNegativeX() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(-1, 0);
+
+        try {
+            field.getFigure(inputPoint);
+            fail();
+        } catch (final InvalidPointException ignored) {}
+    }
+
+    @Test
+    public void testGetFigureWithNegativeY() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(0, -1);
+
+        try {
+            field.getFigure(inputPoint);
+            fail();
+        } catch (final InvalidPointException ignored) {}
+    }
+
+    @Test
+    public void testGetFigureWithNegativeXY() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(-1, -1);
+
+        try {
+            field.getFigure(inputPoint);
+            fail();
+        } catch (final InvalidPointException ignored) {}
+    }
+
+    @Test
+    public void testGetFigureWhenXIsMoreThenSize() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(field.getSize() + 1, 0);
+
+        try {
+            field.getFigure(inputPoint);
+            fail();
+        } catch (final InvalidPointException ignored) {}
+    }
+
+    @Test
+    public void testGetFigureWhenYIsMoreThenSize() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(0, field.getSize() + 1);
+
+        try {
+            field.getFigure(inputPoint);
+            fail();
+        } catch (final InvalidPointException ignored) {}
+    }
+
+    @Test
+    public void testGetFigureWhenXYIsMoreThenSize() throws Exception {
+        final Field field = new Field();
+        final Point inputPoint = new Point(field.getSize() + 1, field.getSize() + 1);
+
+        try {
+            field.getFigure(inputPoint);
+            fail();
+        } catch (final InvalidPointException ignored) {}
     }
 }
